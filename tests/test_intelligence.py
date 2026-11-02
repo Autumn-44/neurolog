@@ -82,3 +82,31 @@ def test_auth_patterns_and_metadata_validation(tmp_path):
     assert data['records'][0]['escalated']
     assert data['alerts'][0]['status'] == 'In-app notification'
     assert client.post('/api/ingest',headers=headers,json={'message':'bad','entity_id':[]}).status_code == 400
+
+
+def burst(start, count, generated=False, source='web'):
+    minute=(datetime.now(timezone.utc)-timedelta(minutes=2)).replace(second=0,microsecond=0)
+    return [{**sample(start+i,source=source,generated=generated),'timestamp':(minute+timedelta(seconds=5*i)).isoformat()} for i in range(count)]
+
+
+def test_volume_spike_against_own_baseline():
+    quiet=[sample(i,minutes=m) for i,m in enumerate(range(6,21),start=100)]
+    result=investigate(burst(1,8)+quiet)
+    assert len(result['spikes']) == 1 and result['metrics']['spikes'] == 1
+    spike=result['spikes'][0]
+    assert spike['count'] == 8 and spike['baseline_median'] == 1 and spike['threshold'] == 5
+    first=result['records'][0]
+    assert first['spike'] and first['factors'][-1]['points'] == 15
+    assert first['risk_score'] == sum(f['points'] for f in first['factors']) == 85
+    assert not result['records'][-1]['spike']
+    assert result['incidents'][0]['spike']
+    assert any(i['title'] == 'Error volume spike' and i['count'] == 8 for i in result['insights'])
+
+
+def test_spike_needs_baseline_and_keeps_generated_separate():
+    assert investigate(burst(1,8))['spikes'] == []
+    quiet=[sample(i,minutes=m) for i,m in enumerate(range(6,21),start=100)]
+    assert investigate(burst(1,4)+quiet)['spikes'] == []
+    result=investigate(burst(1,8,generated=True)+quiet)
+    assert [s['generated'] for s in result['spikes']] == [True]
+    assert not any(r['spike'] for r in result['records'] if not r['generated'])
