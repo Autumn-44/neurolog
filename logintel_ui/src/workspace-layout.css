@@ -32,7 +32,7 @@
 .github-resolution-tag.still_failing{background:var(--danger-bg);color:var(--danger)}
 .github-resolution-tag.likely_resolved{background:var(--success-bg);color:var(--success)}
 /* Overview ends after the current activity and errors. */
-.overview-page .stats-grid{grid-template-columns:repeat(3,minmax(0,1fr));border:0;background:none;gap:24px;border-radius:0;margin-bottom:32px}
+.overview-page .stats-grid{grid-template-columns:repeat(5,minmax(0,1fr));border:0;background:none;gap:24px;border-radius:0;margin-bottom:32px}
 .overview-page .stat-card{background:none;border:0;border-bottom:1px solid var(--border);padding:0 0 24px}
 .overview-page .stat-card>div>svg{display:none}
 .overview-page .stat-card>strong{font-size:34px;margin:10px 0 4px}
@@ -108,6 +108,17 @@
 .pattern-evidence dl{display:flex;gap:28px;flex-wrap:wrap;margin:20px 0}.pattern-evidence dt{font-size:10px}.pattern-evidence dd{margin:4px 0 0;color:var(--text-main)}
 .pattern-evidence .text-link{margin-top:18px}.pattern-footnote{border-top:1px solid var(--border);padding:16px 24px;margin:0}
 .log-workspace .filterbar{display:flex;flex-wrap:wrap;gap:10px;padding:18px}.log-workspace .search-field{flex:1;min-width:200px}.log-workspace select{font-size:11px;width:auto;max-width:180px}
+.severity-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 16px}
+.severity-chips button{display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:5px 11px;border:1px solid var(--border);border-radius:20px;background:none;color:var(--text-muted);font-size:11px}
+.severity-chips button[aria-pressed=true]{border-color:var(--accent);background:var(--surface-alt);color:var(--text-main)}
+.severity-chips button span{font-size:10px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.rule-subheading{margin:0;padding:24px 24px 0;border-top:1px solid var(--border);font-size:13px}
+.rule-hint{margin:0;padding:8px 24px 18px;font-size:11px;color:var(--text-muted);line-height:1.7}
+.rule-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rule-text small{max-width:560px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--text-muted)}
+.rule-text code{font-size:10px;color:var(--text-muted)}
+@media(max-width:1200px){.overview-page .stats-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.severity-chips{padding:0 14px 14px}.rule-subheading,.rule-hint{padding-left:20px;padding-right:20px}}
 .log-workspace .table-meta{background:none;border-top:1px solid var(--border)}
 .settings-layout .settings-card{display:none;margin:0;background:none;border:0;padding:0 0 24px;box-shadow:none}
 .settings-layout[data-settings-view=appearance] #appearance,.settings-layout[data-settings-view=analysis] #analysis,.settings-layout[data-settings-view=intelligence] #intelligence{display:block}
