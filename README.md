@@ -1,5 +1,7 @@
 # NeuroLog AI
 
+> Last updated: November 2, 2026
+
 Project repository: [shahrukh-210906/neurolog](https://github.com/shahrukh-210906/neurolog).
 
 Live application logging with a React dashboard, Flask ingestion API, SQLite storage, and TF-IDF/DBSCAN analysis. Opens directly without login on the local machine.
