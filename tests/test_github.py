@@ -11,6 +11,18 @@ from LogIntel_engine.api import create_app
 from LogIntel_engine import github_integration as gh
 
 REPO = 'owner/project'
+
+
+def test_default_repository_survives_restart_without_duplicates(tmp_path):
+    config = {'TESTING': True, 'LOCAL_MODE': True,
+              'DATABASE': str(tmp_path / 'seed.db'),
+              'DEFAULT_GITHUB_REPOSITORIES': ['shahrukh-210906/WONDERLUST']}
+    for _ in range(2):
+        client = create_app(config).test_client()
+        response = client.get('/api/github/repositories')
+        assert response.status_code == 200
+        assert [row['repo'] for row in response.json] == ['shahrukh-210906/wonderlust']
+
 RUN = {'id': 123, 'run_attempt': 1, 'name': 'Tests', 'head_branch': 'main',
        'head_sha': 'a' * 40, 'conclusion': 'failure', 'created_at': '2026-10-31T00:00:00Z',
        'pull_requests': [{'number': 7}]}

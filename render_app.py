@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent
 
 
 def create_hosted_app(database=None, tasks_database=None, start_sender=True, frontend_dir=None):
-    config = {'LOCAL_MODE': True}
+    config = {'LOCAL_MODE': True, 'DEFAULT_GITHUB_REPOSITORIES': ['shahrukh-210906/WONDERLUST']}
     if database:
         config['DATABASE'] = str(database)
     api = create_api(config)

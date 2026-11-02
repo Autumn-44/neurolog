@@ -237,6 +237,10 @@ def register_github(app, db, uid, body, now):
                 uid TEXT NOT NULL, repo TEXT NOT NULL, run_id INTEGER NOT NULL, attempt INTEGER NOT NULL,
                 result TEXT NOT NULL, PRIMARY KEY(uid,repo,run_id,attempt));
         ''')
+        if app.config.get('LOCAL_MODE'):
+            for repo in app.config.get('DEFAULT_GITHUB_REPOSITORIES', []):
+                db().execute('INSERT OR IGNORE INTO github_repositories VALUES(?,?,?)',
+                             ('local-workspace', repository_name(repo), now()))
         db().commit()
 
     def credentials(data):
